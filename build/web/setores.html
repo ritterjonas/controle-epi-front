@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Controle EPIs</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <ul>
+                        <li><a class="title" href="#!">Controle de EPIs</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col s2">
+                <ul class="side-nav fixed transparent z-depth-0">
+                    <li><a href="index.html"><i class="material-icons">wifi</i>Rodar</a></li>
+                    <li><a href="dashboard.html"><i class="material-icons">dashboard</i>Dashboard</a></li>
+                    <li><a href="funcionarios.html"><i class="material-icons">person</i>Funcionários</a></li>
+                    <li class="active"><a href="setores.html"><i class="material-icons">business</i>Setores</a></li>
+                    <li><a href="epis.html"><i class="material-icons">pan_tool</i>EPI's</a></li>
+                    <li><a href="epi_funcionario.html"><i class="material-icons">how_to_reg</i>EPI's/Funcionários</a></li>
+                </ul>
+            </div>
+            <div class="col s10">
+                <div style="padding: 20px;">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card">
+                                <table class="bordered highlight">
+                                    <thead>
+                                        <tr>
+                                            <th>Identificação</th>
+                                            <th>Responsável</th>
+                                            <th>EPIs Necessários</th>
+                                            <th style="width: 90px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: list">
+                                        <tr data-bind="if: !isEditing()">
+                                            <td data-bind="text: id"></td>
+                                            <td data-bind="text: responsible"></td>
+                                            <td data-bind="text: epis"></td>
+                                            <td>
+                                                <a href="#" data-bind="click: $parent.edit">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <a href="#" data-bind="click: $parent.remove">
+                                                    <i class="material-icons">delete</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr data-bind="if: isEditing()">
+                                            <td>
+                                                <input type="text" placeholder="Identificação" data-bind="value: id" />
+                                            </td>
+                                            <td>
+                                                <select class="select" data-bind="
+												value: responsible,
+												options: $root.listEmployees,
+												optionsText: 'name',
+												optionsValue: 'name'
+                                                        "></select>
+                                            </td>
+                                            <td>
+                                                <select class="multiple-select" multiple data-bind="
+												selectedOptions: epis,
+												options: $root.listEpis,
+												optionsText: 'name',
+												optionsValue: 'name'
+                                                        "></select>
+                                            </td>
+                                            <td>
+                                                <a href="#" data-bind="click: $parent.save, if: isEditing()">
+                                                    <i class="material-icons">save</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a class="waves-effect waves-light btn" data-bind="click: addNew">Novo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/setores.js"></script>
+    </body>
+</html>

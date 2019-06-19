@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Controle EPIs</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <ul>
+                        <li><a class="title" href="index.html">Controle de EPIs</a></li>
+                    </ul>
+
+                    <ul class="right">
+                        <li><a href="login.html"><i class="material-icons">person</i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container" style="margin-top: 50px;">
+            <div class="row">
+                <form class="col s6 offset-s3">
+                    <div class="card" style="padding-top: 20px;">
+                        <div class="row">
+                            <div class="input-field col s10 offset-s1">
+                                <input id="login" type="text" data-bind="value: user" class="validate" required="" aria-required="true">
+                                <label for="login">Login</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s10 offset-s1">
+                                <input id="password" type="password" data-bind="value: password" class="validate" required="" aria-required="true">
+                                <label for="password">Senha</label>
+                            </div>
+                        </div>
+
+                        <span data-bind="visible: incorrectLogin(), text: incorrectLoginMessage"></span>
+
+                        <div class="card-action center">
+                            <input type="submit" class="btn" value="Entrar" data-bind="click: login">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout-validation/2.0.3/knockout.validation.min.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/login.js"></script>
+    </body>
+</html>

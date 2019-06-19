@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Controle EPIs</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <ul>
+                        <li><a class="title" href="#!">Controle de EPIs</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col s2">
+                <ul class="side-nav fixed transparent z-depth-0">
+                    <li><a href="index.html"><i class="material-icons">wifi</i>Rodar</a></li>
+                    <li class="active"><a href="dashboard.html"><i class="material-icons">dashboard</i>Dashboard</a></li>
+                    <li><a href="funcionarios.html"><i class="material-icons">person</i>Funcionários</a></li>
+                    <li><a href="setores.html"><i class="material-icons">business</i>Setores</a></li>
+                    <li><a href="epis.html"><i class="material-icons">pan_tool</i>EPI's</a></li>
+                    <li><a href="epi_funcionario.html"><i class="material-icons">how_to_reg</i>EPI's/Funcionários</a></li>
+                </ul>
+            </div>
+            <div class="col s10">
+                <div style="padding: 30px;">
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="card blue white-text" data-bind="css: { 'card-active': tabActive() == 1 }">
+                                <div class="card-content valign-wrapper">
+                                    <div class="card-text">
+                                        <h6 data-bind="text: inappropriatedEpiListCount"></h6>
+                                        <p>EPIs inadequados</p>
+                                    </div>
+                                    <div class="card-icon"><i class="material-icons medium valign">pie_chart</i></div>
+                                </div>
+                                <div class="card-action">
+                                    <a href="#" style="font-size: 11px;" data-bind="click: generateReport.bind($data, inappropriatedEpiList)">Relatório</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="card blue white-text" data-bind="css: { 'card-active': tabActive() == 2 }">
+                                <div class="card-content valign-wrapper">
+                                    <div class="card-text">
+                                        <h6 data-bind="text: appropriatedEpiList().length"></h6>
+                                        <p>EPIs adequados</p>
+                                    </div>
+                                    <div class="card-icon"><i class="material-icons medium valign">check_circle</i></div>
+                                </div>
+                                <div class="card-action">
+                                    <a href="#" style="font-size: 11px;" data-bind="click: generateReport.bind($data, appropriatedEpiList)">Relatório</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card">
+                                <!-- ko if: tabActive() == 1 -->
+                                <table class="bordered highlight">
+                                    <thead>
+                                        <tr>
+                                            <th>EPI</th>
+                                            <th>Funcionário</th>
+                                            <th>Setor</th>
+                                            <th>Hora</th>
+                                            <th>Irregularidade</th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: inappropriatedEpiList">
+                                        <tr>
+                                            <td data-bind="text: epi"></td>
+                                            <td data-bind="text: name"></td>
+                                            <td data-bind="text: area"></td>
+                                            <td data-bind="text: date"></td>
+                                            <td data-bind="text: description"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- /ko -->
+                                <!-- ko if: tabActive() == 2 -->
+                                <table class="bordered highlight">
+                                    <thead>
+                                        <tr>
+                                            <th>EPI</th>
+                                            <th>Funcionário</th>
+                                            <th>Setor</th>
+                                            <th>Hora</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: appropriatedEpiList">
+                                        <tr>
+                                            <td data-bind="text: epi"></td>
+                                            <td data-bind="text: name"></td>
+                                            <td data-bind="text: area"></td>
+                                            <td data-bind="text: date"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.0/xlsx.full.min.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/dashboard.js"></script>
+    </body>
+</html>
