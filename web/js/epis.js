@@ -49,9 +49,8 @@ function ViewModel() {
         $.ajax({
             url: "http://localhost:8081/api/epis/",
             type: "POST",
-            data: epi,
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
+            data: JSON.stringify(epi),
+            contentType:"application/json",
             success: function (response) {
                 alert('boa campeao');
             },
