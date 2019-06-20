@@ -47,6 +47,7 @@
                                             <th>CEP</th>
                                             <th>CPF</th>
                                             <th>E-mail</th>
+                                            <th>Telefone</th>
                                             <th>Cargo</th>
                                             <th>Admin</th>
                                             <th>Data de Nascimento</th>
@@ -64,14 +65,15 @@
                                             <td data-bind="text: cep"></td>
                                             <td data-bind="text: cpf"></td>
                                             <td data-bind="text: email"></td>
+                                            <td data-bind="text: phone"></td>
                                             <td data-bind="text: job"></td>
                                             <td data-bind="text: admin"></td>
                                             <td data-bind="text: date"></td>
                                             <td>
-                                                <a href="#" data-bind="click: $parent.edit">
+                                                <a href="#" data-bind="click: edit">
                                                     <i class="material-icons">edit</i>
                                                 </a>
-                                                <a href="#" data-bind="click: $parent.remove">
+                                                <a href="#" data-bind="click: remove">
                                                     <i class="material-icons">delete</i>
                                                 </a>
                                             </td>
@@ -81,24 +83,51 @@
                                                 <input type="text" placeholder="Nome" data-bind="value: name" />
                                             </td>
                                             <td>
+                                                <input type="text" placeholder="Rua" data-bind="value: street" />
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="Numero" data-bind="value: number" />
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="Cidade" data-bind="value: city" />
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="Estado" data-bind="value: state" />
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="País" data-bind="value: country" />
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="CEP" data-bind="value: cep" />
+                                            </td>
+                                            <td>
                                                 <input type="text" placeholder="CPF" data-bind="value: cpf" />
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="Email" data-bind="value: email" />
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder="Telefone" data-bind="value: phone" />
                                             </td>
                                             <td>
                                                 <input type="text" placeholder="Cargo" data-bind="value: job" />
                                             </td>
                                             <td>
+                                                <input type="text" placeholder="Admin" data-bind="value: admin" />
+                                            </td>
+<!--                                            <td>
                                                 <select class="select" data-bind="
 												value: area,
 												options: $root.listAreas,
 												optionsText: 'id',
 												optionsValue: 'id'
                                                         "></select>
+                                            </td>-->
+                                            <td>
+                                                <input type="text" class="datepicker" placeholder="Data Nascimento" data-bind="value: date" />
                                             </td>
                                             <td>
-                                                <input type="text" class="datepicker" placeholder="Data Admissão" data-bind="value: date" />
-                                            </td>
-                                            <td>
-                                                <a href="#" data-bind="click: $parent.save, if: isEditing()">
+                                                <a href="#" data-bind="click: save, if: isEditing()">
                                                     <i class="material-icons">save</i>
                                                 </a>
                                             </td>

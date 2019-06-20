@@ -91,7 +91,7 @@ function ViewModel() {
             type: "GET",            
             success: function (response) {
                 self.list(ko.utils.arrayMap(response, function (item) {
-                    return new Epi(item);
+                    return new Funcionario(item);
                 }));
             },
             error: function (xhr, status) {
