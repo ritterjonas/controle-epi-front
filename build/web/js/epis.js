@@ -43,6 +43,29 @@ function Epi(data) {
             });
         }
     }
+    
+    self.edit = function () {
+        self.isEditing(true);
+        setTimeout(function () {
+            $('select').formSelect();
+        }, 0);
+    }
+    
+    self.remove = function () {
+        var epi = {id: self.id(), nome: self.name(), tipo: self.type()};
+        $.ajax({
+            url: "http://localhost:8081/api/epis/"+self.id(),
+            type: "DELETE",
+            data: JSON.stringify(epi),
+            contentType:"application/json",
+            success: function (response) {
+                viewModel.list.remove(self);
+            },
+            error: function (xhr, status) {
+                alert("Erro ao deletar EPI");
+            }
+        });
+    }
 }
 
 function ViewModel() {
@@ -60,29 +83,6 @@ function ViewModel() {
         setTimeout(function () {
             $('select').formSelect();
         }, 0);
-    }
-
-    self.edit = function (data) {
-        data.isEditing(true);
-        setTimeout(function () {
-            $('select').formSelect();
-        }, 0);
-    }
-
-    self.remove = function (data) {
-        var epi = {id: data.id(), nome: data.name(), tipo: data.type()};
-        $.ajax({
-            url: "http://localhost:8081/api/epis/"+data.id(),
-            type: "DELETE",
-            data: JSON.stringify(epi),
-            contentType:"application/json",
-            success: function (response) {
-                self.list.remove(data);
-            },
-            error: function (xhr, status) {
-                alert("Erro ao deletar EPI");
-            }
-        });
     }
     
     self.getData = function(){
