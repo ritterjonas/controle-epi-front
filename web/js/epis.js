@@ -6,6 +6,43 @@ function Epi(data) {
     self.type = ko.observable(data.tipo);
 
     self.isEditing = ko.observable(!!data.new);
+    
+    self.save = function () {
+        ko.utils.arrayForEach(viewModel.list(), function (item) {            
+            item.isEditing(false);
+            if (!item.name())
+                viewModel.list.remove(item);
+        });
+        
+        var epi = {nome: self.name(), tipo: self.type()};
+
+        if(!self.id()){
+            $.ajax({
+                url: "http://localhost:8081/api/epis/",
+                type: "POST",
+                data: JSON.stringify(epi),
+                contentType:"application/json",
+                success: function (response) {
+                    self.id(response.idEpi);
+                },
+                error: function (xhr, status) {
+                    alert("Erro ao inserir EPI");
+                }
+            });
+        } else{
+            $.ajax({
+                url: "http://localhost:8081/api/epis/"+self.id(),
+                type: "PUT",
+                data: JSON.stringify(epi),
+                contentType:"application/json",
+                success: function (response) {  
+                },
+                error: function (xhr, status) {
+                    alert("Erro ao editar EPI");
+                }
+            });
+        }
+    }
 }
 
 function ViewModel() {
@@ -46,44 +83,6 @@ function ViewModel() {
                 alert("Erro ao deletar EPI");
             }
         });
-    }
-
-    self.save = function (data) {
-        ko.utils.arrayForEach(self.list(), function (item) {            
-            item.isEditing(false);
-            if (!item.name())
-                self.list.remove(item);
-        });
-        
-        var epi = {nome: data.name(), tipo: data.type()};
-
-        if(!data.id()){
-            $.ajax({
-                url: "http://localhost:8081/api/epis/",
-                type: "POST",
-                data: JSON.stringify(epi),
-                contentType:"application/json",
-                success: function (response) {
-                    self.list()[self.list().length-1].id(response.idEpi);
-                },
-                error: function (xhr, status) {
-                    alert("Erro ao inserir EPI");
-                }
-            });
-        } else{
-            $.ajax({
-                url: "http://localhost:8081/api/epis/"+data.id(),
-                type: "PUT",
-                data: JSON.stringify(epi),
-                contentType:"application/json",
-                success: function (response) {
-                    
-                },
-                error: function (xhr, status) {
-                    alert("Erro ao editar EPI");
-                }
-            });
-        }
     }
     
     self.getData = function(){
