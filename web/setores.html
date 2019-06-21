@@ -38,7 +38,7 @@
                                 <table class="bordered highlight">
                                     <thead>
                                         <tr>
-                                            <th>Identificação</th>
+                                            <th>Descrição</th>
                                             <th>Responsável</th>
                                             <th>EPIs Necessários</th>
                                             <th style="width: 90px;"></th>
@@ -46,40 +46,40 @@
                                     </thead>
                                     <tbody data-bind="foreach: list">
                                         <tr data-bind="if: !isEditing()">
-                                            <td data-bind="text: id"></td>
-                                            <td data-bind="text: responsible"></td>
-                                            <td data-bind="text: epis"></td>
+                                            <td data-bind="text: description"></td>
+                                            <td data-bind="text: getFuncionarioName()"></td>
+                                            <td data-bind="text: getEpiNames()"></td>
                                             <td>
-                                                <a href="#" data-bind="click: $parent.edit">
+                                                <a href="#" data-bind="click: edit">
                                                     <i class="material-icons">edit</i>
                                                 </a>
-                                                <a href="#" data-bind="click: $parent.remove">
+                                                <a href="#" data-bind="click: remove">
                                                     <i class="material-icons">delete</i>
                                                 </a>
                                             </td>
                                         </tr>
                                         <tr data-bind="if: isEditing()">
                                             <td>
-                                                <input type="text" placeholder="Identificação" data-bind="value: id" />
+                                                <input type="text" placeholder="Identificação" data-bind="value: description" />
                                             </td>
                                             <td>
                                                 <select class="select" data-bind="
-												value: responsible,
-												options: $root.listEmployees,
-												optionsText: 'name',
-												optionsValue: 'name'
+                                                            value: responsible,
+                                                            options: $root.listFuncionarios,
+                                                            optionsText: 'name',
+                                                            optionsValue: 'id'
                                                         "></select>
                                             </td>
                                             <td>
                                                 <select class="multiple-select" multiple data-bind="
-												selectedOptions: epis,
-												options: $root.listEpis,
-												optionsText: 'name',
-												optionsValue: 'name'
+                                                            selectedOptions: epis,
+                                                            options: $root.listEpis,
+                                                            optionsText: 'name',
+                                                            optionsValue: 'id'
                                                         "></select>
                                             </td>
                                             <td>
-                                                <a href="#" data-bind="click: $parent.save, if: isEditing()">
+                                                <a href="#" data-bind="click: save, if: isEditing()">
                                                     <i class="material-icons">save</i>
                                                 </a>
                                             </td>
