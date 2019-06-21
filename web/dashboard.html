@@ -34,30 +34,30 @@
                 <div style="padding: 30px;">
                     <div class="row">
                         <div class="col s12 m6">
-                            <div class="card blue white-text" data-bind="css: { 'card-active': tabActive() == 1 }">
+                            <div class="card blue white-text">
                                 <div class="card-content valign-wrapper">
                                     <div class="card-text">
-                                        <h6 data-bind="text: inappropriatedEpiListCount"></h6>
+                                        <h6 data-bind="text: irregulares"></h6>
                                         <p>EPIs inadequados</p>
                                     </div>
                                     <div class="card-icon"><i class="material-icons medium valign">pie_chart</i></div>
                                 </div>
                                 <div class="card-action">
-                                    <a href="#" style="font-size: 11px;" data-bind="click: generateReport.bind($data, inappropriatedEpiList)">Relatório</a>
+                                    <a href="#" style="font-size: 11px;" data-bind="click: generateReport">Relatório</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col s12 m6">
-                            <div class="card blue white-text" data-bind="css: { 'card-active': tabActive() == 2 }">
+                            <div class="card blue white-text"">
                                 <div class="card-content valign-wrapper">
                                     <div class="card-text">
-                                        <h6 data-bind="text: appropriatedEpiList().length"></h6>
+                                        <h6 data-bind="text: regulares"></h6>
                                         <p>EPIs adequados</p>
                                     </div>
                                     <div class="card-icon"><i class="material-icons medium valign">check_circle</i></div>
                                 </div>
                                 <div class="card-action">
-                                    <a href="#" style="font-size: 11px;" data-bind="click: generateReport.bind($data, appropriatedEpiList)">Relatório</a>
+                                    <a href="#" style="font-size: 11px;" data-bind="click: generateReport">Relatório</a>
                                 </div>
                             </div>
                         </div>
@@ -65,48 +65,28 @@
                     <div class="row">
                         <div class="col s12">
                             <div class="card">
-                                <!-- ko if: tabActive() == 1 -->
                                 <table class="bordered highlight">
                                     <thead>
                                         <tr>
-                                            <th>EPI</th>
+                                            <th>EPIs</th>
                                             <th>Funcionário</th>
                                             <th>Setor</th>
                                             <th>Hora</th>
-                                            <th>Irregularidade</th>                                            
+                                            <th>Status</th>                                            
+                                            <th>Mensagem</th>                                            
                                         </tr>
                                     </thead>
-                                    <tbody data-bind="foreach: inappropriatedEpiList">
+                                    <tbody data-bind="foreach: list">
                                         <tr>
-                                            <td data-bind="text: epi"></td>
-                                            <td data-bind="text: name"></td>
-                                            <td data-bind="text: area"></td>
-                                            <td data-bind="text: date"></td>
-                                            <td data-bind="text: description"></td>
+                                            <td data-bind="text: $root.getEpis(historicoEpis)"></td>
+                                            <td data-bind="text: funcionario.nome"></td>
+                                            <td data-bind="text: setor.descricao"></td>
+                                            <td data-bind="text: moment(createdAt).format('DD/MM/YYYY HH:mm:SS')"></td>
+                                            <td data-bind="text: status ? 'Regular' : 'Irregular'"></td>
+                                            <td data-bind="text: message"></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <!-- /ko -->
-                                <!-- ko if: tabActive() == 2 -->
-                                <table class="bordered highlight">
-                                    <thead>
-                                        <tr>
-                                            <th>EPI</th>
-                                            <th>Funcionário</th>
-                                            <th>Setor</th>
-                                            <th>Hora</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody data-bind="foreach: appropriatedEpiList">
-                                        <tr>
-                                            <td data-bind="text: epi"></td>
-                                            <td data-bind="text: name"></td>
-                                            <td data-bind="text: area"></td>
-                                            <td data-bind="text: date"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <!-- /ko -->
                             </div>
                         </div>
                     </div>

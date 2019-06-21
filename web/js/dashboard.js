@@ -1,21 +1,7 @@
 function ViewModel(){
 	var self = this;
 
-	self.tabActive = ko.observable(1);
-	self.setActiveTab = function(index){
-		self.tabActive(index);
-	}
-
-	self.inappropriatedEpiList = ko.observableArray(api.getInappropriatedEpiList());
-	self.inappropriatedEpiListCount = ko.computed(function(){
-		return ko.utils.arrayFilter(self.inappropriatedEpiList(), function(item){ return item.status == 1 }).length;
-	});
-
-	self.appropriatedEpiList = ko.observableArray(api.getAppropriatedEpiList());
-	self.machineAlerts = ko.observableArray(api.getMachineAlerts());
-	self.machineAlertsCount = ko.computed(function(){
-		return ko.utils.arrayFilter(self.machineAlerts(), function(item){ return item.status == 1 }).length;
-	});
+	self.list = ko.observableArray();
 
 	self.generateReport = function(data){
 		var dataFormated = ko.utils.arrayMap(data(), function(item){
@@ -35,22 +21,40 @@ function ViewModel(){
 		XLSX.writeFile(wb, "Relatorio.xlsx");
 	}
 
-	self.resolve = function(data){
-		if(data.status != 1)
-			return;
-
-		data.status = 2;
-		api.setInappropriatedEpiList(self.inappropriatedEpiList());
-		self.inappropriatedEpiList([]);
-		self.inappropriatedEpiList(api.getInappropriatedEpiList());
-
-		api.setMachineAlerts(self.machineAlerts());
-		self.machineAlerts([]);
-		self.machineAlerts(api.getMachineAlerts());
+	self.getEpis = function(epis){
+		return ko.utils.arrayMap(epis, function(item){
+			return item.epi.nome;
+		}).join(', ');
 	}
+
+	self.regulares = ko.computed(function(){
+		return ko.utils.arrayFilter(self.list(), function(item){
+			return item.status;
+		}).length;
+	});
+	
+	self.irregulares = ko.computed(function(){
+		return ko.utils.arrayFilter(self.list(), function(item){
+			return !item.status;
+		}).length;
+	});
+
+    self.getData = function(){
+        $.ajax({
+            url: "http://localhost:8081/api/historico/",
+            type: "GET",            
+            success: function (response) {
+                self.list(response);
+            },
+            error: function (xhr, status) {
+                alert("Erro ao carregar dados");
+            }
+        });
+    }
 }
 
 var viewModel = new ViewModel();
+viewModel.getData();
 
 $(function(){
 	ko.applyBindings(viewModel);
