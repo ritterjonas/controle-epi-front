@@ -67,7 +67,7 @@
                                             <td data-bind="text: email"></td>
                                             <td data-bind="text: phone"></td>
                                             <td data-bind="text: job"></td>
-                                            <td data-bind="text: admin"></td>
+                                            <td data-bind="text: admin() ? 'Sim' : 'Não'"></td>
                                             <td data-bind="text: date"></td>
                                             <td>
                                                 <a href="#" data-bind="click: edit">
@@ -113,16 +113,11 @@
                                                 <input type="text" placeholder="Cargo" data-bind="value: job" />
                                             </td>
                                             <td>
-                                                <input type="text" placeholder="Admin" data-bind="value: admin" />
+                                                <select data-bind="value: admin">
+                                                    <option value="0">Não</option>
+                                                    <option value="1">Sim</option>
+                                                </select>
                                             </td>
-<!--                                            <td>
-                                                <select class="select" data-bind="
-												value: area,
-												options: $root.listAreas,
-												optionsText: 'id',
-												optionsValue: 'id'
-                                                        "></select>
-                                            </td>-->
                                             <td>
                                                 <input type="text" class="datepicker" placeholder="Data Nascimento" data-bind="value: date" />
                                             </td>

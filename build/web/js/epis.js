@@ -73,11 +73,6 @@ function ViewModel() {
     
     self.list = ko.observableArray();
 
-    self.tabActive = ko.observable(1);
-    self.setActiveTab = function (index) {
-        self.tabActive(index);
-    }
-
     self.addNew = function () {
         self.list.push(new Epi({new : true}));
         setTimeout(function () {
@@ -91,7 +86,7 @@ function ViewModel() {
             type: "GET",            
             success: function (response) {
                 self.list(ko.utils.arrayMap(response, function (item) {
-                    return new Funcionario(item);
+                    return new Epi(item);
                 }));
             },
             error: function (xhr, status) {

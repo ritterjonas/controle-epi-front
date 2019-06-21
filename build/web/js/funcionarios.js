@@ -13,9 +13,9 @@ function Funcionario(data) {
     self.email = ko.observable(data.email);
     self.phone = ko.observable(data.telefone);
     self.job = ko.observable(data.cargo);
-    self.admin = ko.observable(data.admin);
-    self.date = ko.observable(data.dataNascimento);
-
+    self.admin = ko.observable(data.administrador);
+    self.date = ko.observable(moment(data.dataNascimento).format('DD/MM/YYYY'));
+    
     self.isEditing = ko.observable(!!data.new);
     
     self.save = function () {
@@ -24,6 +24,9 @@ function Funcionario(data) {
             if (!item.name())
                 viewModel.list.remove(item);
         });
+        
+        var momentObj = moment(self.date(), 'DD/MM/YYYY');
+        var momentString = momentObj.format('YYYY-MM-DD');
         
         var funcionario = {
             nome: self.name(),
@@ -37,8 +40,8 @@ function Funcionario(data) {
             email: self.email(),
             telefone: self.phone(),
             cargo: self.job(),
-            admin: self.admin(),
-            dataNascimento: self.date()
+            administrador: self.admin() == '0' ? false : true,
+            dataNascimento: momentString
         };
 
         if(!self.id()){
@@ -72,7 +75,7 @@ function Funcionario(data) {
     self.edit = function () {        
         self.isEditing(true);
         setTimeout(function () {
-            $('.datepicker').datepicker({format: 'yyyy-mm-dd'});
+            $('.datepicker').datepicker({format: 'dd/mm/yyyy'});
             $('select').formSelect();
         }, 0);
     }
@@ -121,7 +124,7 @@ function ViewModel() {
     self.addNew = function () {
         self.list.push(new Funcionario({new : true}));
         setTimeout(function () {
-            $('.datepicker').datepicker({format: 'yyyy-mm-dd'})
+            $('.datepicker').datepicker({format: 'dd/mm/yyyy'})
             $('select').formSelect();
         }, 0);
     }
@@ -140,8 +143,6 @@ function ViewModel() {
             }
         });
     }
-
-    self.listAreas = ko.observableArray(api.getSetores());
 }
 
 var viewModel = new ViewModel();
