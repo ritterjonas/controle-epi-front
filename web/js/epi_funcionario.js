@@ -15,10 +15,7 @@ function EpiFuncionario(data) {
                 viewModel.list.remove(item);
         });
         
-        var momentObj = moment(self.expiringDate(), 'DD/MM/YYYY');
-        var momentString = momentObj.format('YYYY-MM-DD');
-        
-        var epiFuncionario = {epiId: self.epi(), funcionarioId: self.employee(), validade: momentString};
+        var epiFuncionario = {epiId: self.epi(), funcionarioId: self.employee(), validade: moment(self.expiringDate(), 'DD/MM/YYYY').toDate() };
 
         if(!self.id()){
             $.ajax({
