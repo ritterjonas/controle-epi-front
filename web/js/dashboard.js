@@ -1,30 +1,30 @@
-function ViewModel(){
-	var self = this;
+function ViewModel() {
+    var self = this;
 
-	self.list = ko.observableArray();
+    self.list = ko.observableArray();
 
-	self.getEpis = function(epis){
-		return ko.utils.arrayMap(epis, function(item){
-			return item.epi.nome;
-		}).join(', ');
-	}
+    self.getEpis = function (epis) {
+        return ko.utils.arrayMap(epis, function (item) {
+            return item.epi.nome;
+        }).join(', ');
+    }
 
-	self.regulares = ko.computed(function(){
-		return ko.utils.arrayFilter(self.list(), function(item){
-			return item.status;
-		}).length;
-	});
-	
-	self.irregulares = ko.computed(function(){
-		return ko.utils.arrayFilter(self.list(), function(item){
-			return !item.status;
-		}).length;
-	});
+    self.regulares = ko.computed(function () {
+        return ko.utils.arrayFilter(self.list(), function (item) {
+            return item.status;
+        }).length;
+    });
 
-    self.getData = function(){
+    self.irregulares = ko.computed(function () {
+        return ko.utils.arrayFilter(self.list(), function (item) {
+            return !item.status;
+        }).length;
+    });
+
+    self.getData = function () {
         $.ajax({
             url: "http://localhost:8081/api/historico/",
-            type: "GET",            
+            type: "GET",
             success: function (response) {
                 self.list(response);
             },
@@ -38,6 +38,6 @@ function ViewModel(){
 var viewModel = new ViewModel();
 viewModel.getData();
 
-$(function(){
-	ko.applyBindings(viewModel);
+$(function () {
+    ko.applyBindings(viewModel);
 });

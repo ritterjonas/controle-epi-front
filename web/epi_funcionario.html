@@ -38,7 +38,7 @@
                                 <table class="bordered highlight">
                                     <thead>
                                         <tr>
-                                            <th>Identificação</th>
+                                            <th>EPI</th>
                                             <th>Responsável</th>
                                             <th>Data Vencimento</th>
                                             <th style="width: 90px;"></th>
@@ -46,14 +46,14 @@
                                     </thead>
                                     <tbody data-bind="foreach: list">
                                         <tr data-bind="if: !isEditing()">
-                                            <td data-bind="text: epi"></td>
-                                            <td data-bind="text: employee"></td>
+                                            <td data-bind="text: getEpiDescription()"></td>
+                                            <td data-bind="text: getFuncionarioName()"></td>
                                             <td data-bind="text: expiringDate"></td>
                                             <td>
-                                                <a href="#" data-bind="click: $parent.edit">
+                                                <a href="#" data-bind="click: edit">
                                                     <i class="material-icons">edit</i>
                                                 </a>
-                                                <a href="#" data-bind="click: $parent.remove">
+                                                <a href="#" data-bind="click: remove">
                                                     <i class="material-icons">delete</i>
                                                 </a>
                                             </td>
@@ -61,25 +61,25 @@
                                         <tr data-bind="if: isEditing()">
                                             <td>
                                                 <select class="select" data-bind="
-												value: epi,
-												options: $root.listEpis,
-												optionsText: 'name',
-												optionsValue: 'name'
+                                                            value: epi,
+                                                            options: $root.listEpis,
+                                                            optionsText: 'name',
+                                                            optionsValue: 'id'
                                                         "></select>
                                             </td>
                                             <td>
                                                 <select class="select" data-bind="
-												value: employee,
-												options: $root.listEmployees,
-												optionsText: 'name',
-												optionsValue: 'name'
+                                                            value: employee,
+                                                            options: $root.listFuncionarios,
+                                                            optionsText: 'name',
+                                                            optionsValue: 'id'
                                                         "></select>
                                             </td>
                                             <td>
                                                 <input type="text" class="datepicker" placeholder="Data de Validade" data-bind="value: expiringDate" />
                                             </td>
                                             <td>
-                                                <a href="#" data-bind="click: $parent.save, if: isEditing()">
+                                                <a href="#" data-bind="click: save, if: isEditing()">
                                                     <i class="material-icons">save</i>
                                                 </a>
                                             </td>

@@ -1,62 +1,178 @@
-function EpiFuncionario(data){
-	var self = this;
+function EpiFuncionario(data) {
+    var self = this;
 
-	self.employee = ko.observable(data.employee);
-	self.epi = ko.observable(data.epi);
-	self.expiringDate = ko.observable(data.expiringDate);
+    self.id = ko.observable(data.idEpiFuncionario);
+    self.employee = ko.observable(data.responsavel ? data.responsavel.idFuncionario : null);
+    self.epi = ko.observable(data.epi ? data.epi.idEpi : null);
+    self.expiringDate = ko.observable(moment(data.validade).format('DD/MM/YYYY'));
 
-	self.isEditing = ko.observable(!!data.new);
+    self.isEditing = ko.observable(!!data.new);
+    
+    self.save = function () {
+        ko.utils.arrayForEach(viewModel.list(), function (item) {            
+            item.isEditing(false);
+            if (!item.employee() || !item.epi())
+                viewModel.list.remove(item);
+        });
+        
+        var momentObj = moment(self.expiringDate(), 'DD/MM/YYYY');
+        var momentString = momentObj.format('YYYY-MM-DD');
+        
+        var epiFuncionario = {epiId: self.epi(), funcionarioId: self.employee(), validade: momentString};
+
+        if(!self.id()){
+            $.ajax({
+                url: "http://localhost:8081/api/epi_funcionario/",
+                type: "POST",
+                data: JSON.stringify(epiFuncionario),
+                contentType:"application/json",
+                success: function (response) {
+                    self.id(response.idEpiFuncionario);
+                },
+                error: function (xhr, status) {
+                    alert("Erro ao inserir Funcionario");
+                }
+            });
+        } else{
+            $.ajax({
+                url: "http://localhost:8081/api/epi_funcionario/"+self.id(),
+                type: "PUT",
+                data: JSON.stringify(epiFuncionario),
+                contentType:"application/json",
+                success: function (response) {  
+                },
+                error: function (xhr, status) {
+                    alert("Erro ao editar Funcionario");
+                }
+            });
+        }
+    }
+    
+    self.edit = function () {        
+        self.isEditing(true);
+        setTimeout(function () {
+            $('.datepicker').datepicker({format: 'dd/mm/yyyy'});
+            $('select').formSelect();
+        }, 0);
+    }
+    
+    self.remove = function () {
+        var epiFuncionario = {epiId: self.epi(), funcionarioId: self.employee(), validade: self.expiringDate()};
+        $.ajax({
+            url: "http://localhost:8081/api/epi_funcionario/"+self.id(),
+            type: "DELETE",
+            data: JSON.stringify(epiFuncionario),
+            contentType:"application/json",
+            success: function (response) {
+                viewModel.list.remove(self);
+            },
+            error: function (xhr, status) {
+                alert("Erro ao deletar Funcionario");
+            }
+        });
+    }
+    
+    self.getFuncionarioName = function(){
+        var name = null;
+        ko.utils.arrayForEach(viewModel.listFuncionarios(), function(func){
+            if(self.employee() == func.id()){
+                name = func.name();
+            }
+        });
+        return name;
+    }
+    
+    self.getEpiDescription = function(){
+        var description = null;
+        ko.utils.arrayForEach(viewModel.listEpis(), function(epi){
+            if(self.epi() == epi.id()){
+                description = epi.name();
+            }
+        });
+        return description;
+    }
 }
 
-function ViewModel(){
-	var self = this;
+function Epi(data) {
+    var self = this;
+    self.id = ko.observable(data.idEpi);
+    self.name = ko.observable(data.nome);
+}
 
-	self.tabActive = ko.observable(1);
-	self.setActiveTab = function(index){
-		self.tabActive(index);
-	}
+function Funcionario(data) {
+    var self = this;
+    self.id = ko.observable(data.idFuncionario);
+    self.name = ko.observable(data.nome);
+}
 
-	self.list = ko.observableArray(ko.utils.arrayMap(api.getEpiFuncionarios(), function(item){
-		return new EpiFuncionario(item);
-	})); 
+function ViewModel() {
+    var self = this;
 
-	self.addNew = function(){
-		self.list.push(new EpiFuncionario({ new: true }));
-		setTimeout(function(){ 
-    		$('.select').formSelect();
-    		$('.datepicker').datepicker({ format: 'yyyy-mm-dd' }) 
-		}, 0);
-	}
+    self.list = ko.observableArray();
+    self.listEpis = ko.observableArray();
+    self.listFuncionarios = ko.observableArray();
 
-	self.edit = function(data){
-		self.save();
-		data.isEditing(true);
-		setTimeout(function(){ 
-    		$('.select').formSelect();
-    		$('.datepicker').datepicker({ format: 'yyyy-mm-dd' }) 
-		}, 0);
-	}
+    self.tabActive = ko.observable(1);
+    self.setActiveTab = function (index) {
+        self.tabActive(index);
+    }
 
-	self.remove = function(data){
-		self.list.remove(data);
-		self.save();
-	}
+    self.addNew = function () {
+        self.list.push(new EpiFuncionario({new : true}));
+        setTimeout(function () {
+            $('.select').formSelect();
+            $('.datepicker').datepicker({format: 'dd/mm/yyyy'})
+        }, 0);
+    }
 
-	self.save = function(){
-		ko.utils.arrayForEach(self.list(), function(item){
-			item.isEditing(false);
-			if(!item.employee())
-				self.list.remove(item);
-		});
-		api.setEpiFuncionarios(ko.toJS(self.list()));
-	}
-
-	self.listEmployees = ko.observableArray(api.getFuncionarios());
-	self.listEpis = ko.observableArray(api.getEpis());
+    self.getData = function(){
+        //get epis
+        $.ajax({
+            url: "http://localhost:8081/api/epis/",
+            type: "GET",            
+            success: function (response) {
+                self.listEpis(ko.utils.arrayMap(response, function (item) {
+                    return new Epi(item);
+                }));
+            },
+            error: function (xhr, status) {
+                alert("Erro ao carregar dados");
+            }
+        });
+        
+        //get funcionarios
+        $.ajax({
+            url: "http://localhost:8081/api/funcionarios/",
+            type: "GET",            
+            success: function (response) {
+                self.listFuncionarios(ko.utils.arrayMap(response, function (item) {
+                    return new Funcionario(item);
+                }));
+            },
+            error: function (xhr, status) {
+                alert("Erro ao carregar dados");
+            }
+        });
+        
+        //get epi_funcionarios
+        $.ajax({
+            url: "http://localhost:8081/api/epi_funcionario/",
+            type: "GET",            
+            success: function (response) {
+                self.list(ko.utils.arrayMap(response, function (item) {
+                    return new EpiFuncionario(item);
+                }));
+            },
+            error: function (xhr, status) {
+                alert("Erro ao carregar dados");
+            }
+        });
+    }
 }
 
 var viewModel = new ViewModel();
+viewModel.getData();
 
-$(function(){
-	ko.applyBindings(viewModel);
+$(function () {
+    ko.applyBindings(viewModel);
 });

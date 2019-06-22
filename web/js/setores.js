@@ -96,7 +96,6 @@ function Setor(data) {
 
 function Epi(data) {
     var self = this;
-
     self.id = ko.observable(data.idEpi);
     self.name = ko.observable(data.nome);
     self.type = ko.observable(data.tipo);
@@ -157,7 +156,7 @@ function ViewModel() {
             }
         });
         
-        //get setorers
+        //get setores
         $.ajax({
             url: "http://localhost:8081/api/setor/",
             type: "GET",            
