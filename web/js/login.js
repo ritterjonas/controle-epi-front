@@ -21,14 +21,30 @@ function ViewModel(){
             return;
         }
 
-        if(self.user() != 'admin' || self.password() != 'admin'){
-        	self.incorrectLogin(true);
-        	return;
-        }
+		$.ajax({
+			url: "http://localhost:8081/api/login",
+			type: "POST",
+			data: JSON.stringify({ email: self.user(), password: self.password() }),
+			contentType:"application/json",
+			success: function (response) {
+				if(response.success){
+					localStorage.setItem("isAutenticated", "true");
+					window.location.replace('dashboard.html');
+				} else {
+					self.incorrectLogin(true);
+					self.incorrectLoginMessage(response.message);
+				}
+			},
+			error: function (xhr, status) {
+				self.incorrectLogin(true);
+				self.incorrectLoginMessage("Erro ao efetuar login");
+			}
+		});
 
-        window.location.replace('dashboard.html');
 	}
 }
+
+localStorage.clear();
 
 var viewModel = new ViewModel();
 

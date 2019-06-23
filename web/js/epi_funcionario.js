@@ -167,6 +167,10 @@ function ViewModel() {
     }
 }
 
+if(!localStorage.getItem("isAutenticated")){
+	window.location.replace('login.html');
+}
+
 var viewModel = new ViewModel();
 viewModel.getData();
 
