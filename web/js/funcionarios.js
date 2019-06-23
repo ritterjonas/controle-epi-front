@@ -25,9 +25,6 @@ function Funcionario(data) {
                 viewModel.list.remove(item);
         });
         
-        var momentObj = moment(self.date(), 'DD/MM/YYYY');
-        var momentString = momentObj.format('YYYY-MM-DD');
-        
         var funcionario = {
             nome: self.name(),
             rua: self.street(),
@@ -41,7 +38,7 @@ function Funcionario(data) {
             telefone: self.phone(),
             cargo: self.job(),
             administrador: self.admin() == '0' ? false : true,
-            dataNascimento: momentString
+            dataNascimento: moment(self.date(), 'DD/MM/YYYY').toDate()
         };
 
         if(!self.id()){
