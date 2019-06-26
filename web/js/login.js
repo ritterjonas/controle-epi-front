@@ -29,7 +29,7 @@ function ViewModel(){
 			success: function (response) {
 				if(response.success){
 					localStorage.setItem("isAutenticated", "true");
-					window.location.replace('dashboard.html');
+					window.location.replace('index.html');
 				} else {
 					self.incorrectLogin(true);
 					self.incorrectLoginMessage(response.message);
