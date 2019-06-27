@@ -36,9 +36,11 @@ function Setor(data) {
     self.save = function () {
         ko.utils.arrayForEach(viewModel.list(), function (item) {            
             item.isEditing(false);
-            if (!item.description())
+            if (!item.description() || item.epis().length == 0)
                 viewModel.list.remove(item);
         });
+        
+        if(!self.description() || self.epis().length == 0) return;
         
         var setor = {descricao: self.description(), responsavelId: self.responsible(), epis: self.epis()};
 

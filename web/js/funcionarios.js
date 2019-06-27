@@ -25,6 +25,8 @@ function Funcionario(data) {
                 viewModel.list.remove(item);
         });
         
+        if(!self.name()) return;
+        
         var funcionario = {
             nome: self.name(),
             rua: self.street(),
