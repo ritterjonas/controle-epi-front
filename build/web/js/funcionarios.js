@@ -25,8 +25,7 @@ function Funcionario(data) {
                 viewModel.list.remove(item);
         });
         
-        var momentObj = moment(self.date(), 'DD/MM/YYYY');
-        var momentString = momentObj.format('YYYY-MM-DD');
+        if(!self.name()) return;
         
         var funcionario = {
             nome: self.name(),
@@ -41,7 +40,7 @@ function Funcionario(data) {
             telefone: self.phone(),
             cargo: self.job(),
             administrador: self.admin() == '0' ? false : true,
-            dataNascimento: momentString
+            dataNascimento: moment(self.date(), 'DD/MM/YYYY').toDate()
         };
 
         if(!self.id()){
@@ -143,6 +142,10 @@ function ViewModel() {
             }
         });
     }
+}
+
+if(!localStorage.getItem("isAutenticated")){
+	window.location.replace('login.html');
 }
 
 var viewModel = new ViewModel();

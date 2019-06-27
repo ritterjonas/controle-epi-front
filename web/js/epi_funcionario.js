@@ -11,11 +11,12 @@ function EpiFuncionario(data) {
     self.save = function () {
         ko.utils.arrayForEach(viewModel.list(), function (item) {            
             item.isEditing(false);
-            if (!item.employee() || !item.epi() || !item.expiringDate())
-                viewModel.list.remove(item);
         });
         
-        if(!self.epi() || !self.employee() || !self.expiringDate()) return;
+        if(!self.epi() || !self.employee() || !self.expiringDate()) {
+            viewModel.list.remove(self);
+            return;
+        }
         
         var epiFuncionario = {epiId: self.epi(), funcionarioId: self.employee(), validade: moment(self.expiringDate(), 'DD/MM/YYYY').toDate() };
 

@@ -21,11 +21,12 @@ function Funcionario(data) {
     self.save = function () {
         ko.utils.arrayForEach(viewModel.list(), function (item) {            
             item.isEditing(false);
-            if (!item.name())
-                viewModel.list.remove(item);
         });
         
-        if(!self.name()) return;
+        if(!self.name()) {
+            viewModel.list.remove(self);
+            return;
+        }
         
         var funcionario = {
             nome: self.name(),

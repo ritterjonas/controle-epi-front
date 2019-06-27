@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Totem</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style type="text/css">
+        @import url("https://fonts.googleapis.com/css?family=Roboto");
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .card {
+            background-color: white;
+            width: auto;
+            box-sizing: content-box;
+            padding: 40px 24px;
+            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+            margin: 50px auto;
+            max-width: 400px;
+            flex: 1;
+        }
+        .card .card-title {
+            border-left: 8px solid #fd2e76;
+            padding: 16px 30px;
+            margin-left: -24px;
+            font-size: 1.5em;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+        
+        .sh-list {
+            min-width: 340px;
+        }
+        .sh-list .sh-list-item {
+            padding: 16px;
+            cursor: pointer;
+        }
+        .sh-list .sh-list-item:hover {
+            background-color: #f3f3f3;
+        }
+        .sh-list .sh-list-item .sh-list-content, .sh-list .sh-list-item .sh-list-icon {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .sh-list .sh-list-item .sh-list-item-title {
+            color: #2C2D30;
+            padding: 2px 0;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .sh-list .sh-list-item .sh-list-item-sub-title {
+            color: #717274;
+            font-weight: 200;
+            font-size: 15px;
+        }
+        .sh-list .sh-list-item .sh-list-icon {
+            margin-right: 10px;
+            background-color: #d2d2d2;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 42px;
+            font-size: 1.2em;
+            font-weight: 100;
+            color: white;
+            border-radius: 50%;
+        }
+        .sh-list .sh-list-item .sh-list-icon.add {
+            background-color: #fd2e76;
+        }
+        .sh-list .sh-list-item .sufix {
+            display: inline-block;
+            font-size: 24px;
+            margin-right: 24px;
+            float: right;
+        }
+        
+        h4 {
+            display: block;
+            box-sizing: border-box;
+            height: 48px;
+            padding: 16px;
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.54);
+        }
+
+        .material-button {
+            background: #fd2e76;
+            color: white;
+            padding: 20px 70px;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            margin: 20px auto;
+            display: block;
+            cursor: pointer;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 22px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="card">
+            <div class="card-title">Totem</div>
+            <div class="sh-list">
+                <h4>Selecione um setor</h4>
+                <!-- ko foreach: setores -->
+                <div class="sh-list-item" data-bind="click: $root.selecionarSetor">
+                    <div class="sh-list-icon"><i class="fa fa-industry"></i></div>
+                    <div class="sh-list-content">
+                        <div class="sh-list-item-title" data-bind="text: descricao"></div>
+                        <div class="sh-list-item-sub-title">Clique aqui para adicionar setor</div>
+                    </div>
+                    <div class=sufix><i class="fa fa-angle-right"></i></div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div class="sh-list">
+                <h4>Selecione um funcionário</h4>
+                <!-- ko foreach: funcionarios -->
+                <div class="sh-list-item" data-bind="click: $root.selecionarFuncionario">
+                    <div class="sh-list-icon"><i class="fa fa-user"></i></div>
+                    <div class="sh-list-content">
+                        <div class="sh-list-item-title" data-bind="text: nome"></div>
+                        <div class="sh-list-item-sub-title">Clique aqui para adicionar funcionario</div>
+                    </div>
+                    <div class=sufix><i class="fa fa-angle-right"></i></div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div class="sh-list">
+                <h4>Selecione os EPIS utilizados</h4>
+                <!-- ko foreach: epis -->
+                <div class="sh-list-item" data-bind="click: $root.selecionarEpi">
+                    <div class="sh-list-icon"><i class="fa fa-wrench"></i></div>
+                    <div class="sh-list-content">
+                        <div class="sh-list-item-title" data-bind="text: nome"></div>
+                        <div class="sh-list-item-sub-title">Clique aqui para adicionar epi</div>
+                    </div>
+                    <div class=sufix><i class="fa fa-angle-right"></i></div>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Request</div>
+            <div class="sh-list">
+                <h4>Setor selecionado</h4>
+                <!-- ko with: setorSelecionado -->
+                <div class="sh-list-item" data-bind="click: $root.removeSetor">
+                    <div class="sh-list-icon"><i class="fa fa-industry"></i></div>
+                    <div class="sh-list-content">
+                        <div class="sh-list-item-title" data-bind="text: descricao"></div>
+                        <div class="sh-list-item-sub-title">Clique aqui para remover setor</div>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div class="sh-list">
+                <h4>Funcionário selecionado</h4>
+                <!-- ko with: funcionarioSelecionado -->
+                <div class="sh-list-item" data-bind="click: $root.removeFuncionario">
+                    <div class="sh-list-icon"><i class="fa fa-user"></i></div>
+                    <div class="sh-list-content">
+                        <div class="sh-list-item-title" data-bind="text: nome"></div>
+                        <div class="sh-list-item-sub-title">Clique aqui para remover funcionario</div>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div class="sh-list">
+                <h4>EPIS selecionados</h4>
+                <!-- ko foreach: episSelecionados -->
+                <div class="sh-list-item" data-bind="click: $root.removeEpi">
+                    <div class="sh-list-icon"><i class="fa fa-wrench"></i></div>
+                    <div class="sh-list-content">
+                        <div class="sh-list-item-title" data-bind="text: nome"></div>
+                        <div class="sh-list-item-sub-title">Clique aqui para remover epi</div>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <button class="material-button" data-bind="click: enviar">SIMULAR</button>
+            <div class="message" data-bind="text: message"></div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        function ViewModel(){
+            var self = this;
+
+            self.setores = ko.observableArray();
+            self.selecionarSetor = function(setor){
+                self.setorSelecionado(setor);
+            }
+            self.funcionarios = ko.observableArray();
+            self.selecionarFuncionario = function(funcionario){
+                self.funcionarioSelecionado(funcionario);
+            }
+            self.epis = ko.observableArray();
+            self.selecionarEpi = function(epi){
+                var exists = ko.utils.arrayFirst(self.episSelecionados(), function(item){
+                    return item.idEpi == epi.idEpi;
+                });
+                if(exists)
+                    return;
+                self.episSelecionados.push(epi);
+            }
+
+            self.setorSelecionado = ko.observable();
+            self.removeSetor = function(){
+                self.setorSelecionado(null);
+            }
+            self.funcionarioSelecionado = ko.observable();
+            self.removeFuncionario = function(){
+                self.funcionarioSelecionado(null);
+            }
+            self.episSelecionados = ko.observableArray();
+            self.removeEpi = function(epi){
+                self.episSelecionados.remove(epi);
+            }
+
+            self.getData = function(){
+                $.get("http://localhost:8081/api/setor", function(response){
+                    self.setores(response);
+                }).fail(function() {
+                    alert("Ocorreu um erro ao obter os setores");
+                });
+                $.get("http://localhost:8081/api/funcionarios", function(response){
+                    self.funcionarios(response);
+                }).fail(function() {
+                    alert("Ocorreu um erro ao obter os funcionarios");
+                });
+                $.get("http://localhost:8081/api/epis", function(response){
+                    self.epis(response);
+                }).fail(function() {
+                    alert("Ocorreu um erro ao obter os epis");
+                });
+            }
+
+            self.message = ko.observable('');
+
+            self.enviar = function(){
+                if(!self.funcionarioSelecionado() || !self.setorSelecionado()){
+                    return;
+                }
+                var dados = {
+                    funcionarioId: self.funcionarioSelecionado().idFuncionario,
+                    setorId: self.setorSelecionado().idSetor,
+                    epis: ko.utils.arrayMap(self.episSelecionados(), function(item){ return item.idEpi; })
+                }
+                $.ajax({
+                    url: "http://localhost:8081/api/registerEvent",
+                    type: "POST",
+                    data: JSON.stringify(dados),
+                    contentType:"application/json",
+                    success: function (response) {
+                        if(response.success){
+                            self.message("Entrada Liberada!");
+                        } else {
+                            self.message(response.message);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Ocorreu um erro ao comunicar com a API");
+                    }
+                });
+            }
+            
+        }
+        
+        var viewModel = new ViewModel();
+        $(function(){
+            viewModel.getData();
+            ko.applyBindings(viewModel);
+        });
+    </script>
+</body>
+</html>

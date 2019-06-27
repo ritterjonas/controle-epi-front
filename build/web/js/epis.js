@@ -14,6 +14,8 @@ function Epi(data) {
                 viewModel.list.remove(item);
         });
         
+        if(!self.name() || !self.type()) return;
+        
         var epi = {nome: self.name(), tipo: self.type()};
 
         if(!self.id()){
@@ -94,6 +96,10 @@ function ViewModel() {
             }
         });
     }
+}
+
+if(!localStorage.getItem("isAutenticated")){
+	window.location.replace('login.html');
 }
 
 var viewModel = new ViewModel();

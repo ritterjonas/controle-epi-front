@@ -10,11 +10,12 @@ function Epi(data) {
     self.save = function () {
         ko.utils.arrayForEach(viewModel.list(), function (item) {            
             item.isEditing(false);
-            if (!item.name())
-                viewModel.list.remove(item);
         });
         
-        if(!self.name() || !self.type()) return;
+        if(!self.name() || !self.type()) {
+            viewModel.list.remove(self);
+            return;
+        }
         
         var epi = {nome: self.name(), tipo: self.type()};
 
